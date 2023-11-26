@@ -1,0 +1,20 @@
+#quarto{
+    margin-top: 15%;
+}
+#cama{
+    width: 20%;
+    margin-bottom: -3.7%;
+}
+#mesa{
+    width: 18%;
+    margin-bottom: -5.5%;
+    margin-left: 50%;
+}
+#personagem {
+    width: 3%;
+    height: 9%;
+    margin-top: 15.3%;
+    background-color: red;
+    position: absolute;
+    transform: translate(-50%, -50%);
+  }

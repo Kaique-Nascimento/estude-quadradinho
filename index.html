@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css.css">
+    <title>Estude</title>
+</head>
+<body>
+    <div id="quarto">
+        <div id="personagem"></div>
+        <img src="cama.png" alt="cama" id="cama">
+        <img src="mesa.png" alt="mesa" id="mesa">
+        <hr>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const quarto = document.getElementById("quarto");
+                const personagem = document.getElementById("personagem");
+                const velocidade = 5;
+                const posicaoInicial = (quarto.offsetWidth - personagem.offsetWidth) / 2;
+
+                // Posiciona o personagem no meio da tela
+                personagem.style.left = `${posicaoInicial}px`;
+
+                document.addEventListener("keydown", function(event) {
+                    if (event.key === "ArrowRight") {
+                        movePersonagem(velocidade);
+                    } else if (event.key === "ArrowLeft") {
+                        movePersonagem(-velocidade);
+                    }
+                });
+
+                function movePersonagem(deltaX) {
+                    const currentLeft = parseFloat(getComputedStyle(personagem).left);
+                    const newLeft = currentLeft + deltaX;
+
+                    // Verifica se o novo posicionamento está dentro dos limites do quarto
+                    if (newLeft >= 0 && newLeft <= quarto.offsetWidth - personagem.offsetWidth) {
+                        personagem.style.left = `${newLeft}px`;
+                    }
+
+                    // Verifica se o personagem toca na cama
+                    if (detectarColisao(personagem, document.getElementById("cama"))) {
+                        resetarPosicaoPersonagem();
+                        mostrarMensagem("Deseja dormir? Sim ou Não");
+                    }
+
+                    // Verifica se o personagem toca na mesa
+                    if (detectarColisao(personagem, document.getElementById("mesa"))) {
+                        resetarPosicaoPersonagem();
+                        mostrarMensagem("Deseja estudar? Sim ou Não");
+                    }
+                }
+
+                function detectarColisao(element1, element2) {
+                    const rect1 = element1.getBoundingClientRect();
+                    const rect2 = element2.getBoundingClientRect();
+                    return (
+                        rect1.left < rect2.right &&
+                        rect1.right > rect2.left &&
+                        rect1.top < rect2.bottom &&
+                        rect1.bottom > rect2.top
+                    );
+                }
+
+                function resetarPosicaoPersonagem() {
+                    personagem.style.left = `${posicaoInicial}px`;
+                }
+
+                function mostrarMensagem(mensagem) {
+                    const resposta = prompt(mensagem);
+                    console.log(resposta);
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
